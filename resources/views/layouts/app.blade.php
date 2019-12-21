@@ -72,17 +72,17 @@
             </div>
         </nav>
 
-        <main class="py-4">
+        <main class="container py-4">
             <div class="row">
                 <div class="col-lg-4">
                     <ul class="list-group">
-                        <li class="list-group-item"><a href="">Home</a></li>
+                        <li class="list-group-item"><a href="{{ route('home') }}">Home</a></li>
                         <hr>
-                        <li class="list-group-item"><a href="">Posts</a></li>
-                        <li class="list-group-item"><a href="">Create a Post</a></li>
+                        <li class="list-group-item"><a href="{{ route('posts.index') }}">Posts</a></li>
+                        <li class="list-group-item"><a href="{{ route('post.create') }}">Create a Post</a></li>
                         <hr>
-                        <li class="list-group-item"><a href="">Categories</a></li>
-                        <li class="list-group-item"><a href="">Create a Category</a></li>
+                        <li class="list-group-item"><a href="{{ route('categories.index') }}">Categories</a></li>
+                        <li class="list-group-item"><a href="{{ route('category.create') }}">Create a Category</a></li>
                     </ul>
                 </div>
 

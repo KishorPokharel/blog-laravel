@@ -17,6 +17,18 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::group('')
+Route::group(['prefix' => 'admin', 'middleware' => 'auth'],function() {
 
-Route::get('/home', 'HomeController@index')->name('home');
+	Route::get('/home', 'HomeController@index')->name('home');
+
+	//Post Routes
+	Route::get('/posts', 'PostsController@index')->name('posts.index');
+	Route::get('/post/create', 'PostsController@create')->name('post.create');
+
+	//Category Routes
+	Route::get('/categories', 'CategoriesController@index')->name('categories.index');
+	Route::get('/category/create', 'CategoriesController@create')->name('category.create');
+
+});
+
+
