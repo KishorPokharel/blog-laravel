@@ -10,7 +10,9 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('toastr/toastr.js') }}"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -18,6 +20,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('toastr/toastr.css') }}">
 </head>
 <body>
     <div id="app">
@@ -74,6 +77,7 @@
 
         <main class="container py-4">
             <div class="row">
+                @auth
                 <div class="col-lg-4">
                     <ul class="list-group">
                         <li class="list-group-item"><a href="{{ route('home') }}">Home</a></li>
@@ -85,6 +89,7 @@
                         <li class="list-group-item"><a href="{{ route('category.create') }}">Create a Category</a></li>
                     </ul>
                 </div>
+                @endauth
 
                 <div class="col-lg-8">
                     @yield('content')
@@ -92,5 +97,10 @@
             </div>
         </main>
     </div>
+    <script>
+        @if(Session::has('success'))
+            toastr.success("{{Session::get('success')}}")
+        @endif
+    </script>
 </body>
 </html>
