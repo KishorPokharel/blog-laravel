@@ -15,6 +15,7 @@ class PostsController extends Controller
      */
     public function index()
     {
+        $posts = Post::orderBy('desc', 'created_at')->get();
         return view('admin.posts.index');
     }
 
@@ -42,7 +43,13 @@ class PostsController extends Controller
             'featured' => 'required|image',
         ]);
 
-        dd($request->all());
+		$post = new Post;
+		$post->title = $request->title;
+		$post->content = $request->content;
+		$post->featured = $request->featured;
+		$post->save();
+
+		return redirect(route('posts.index'));
     }
 
     /**
