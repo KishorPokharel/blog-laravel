@@ -10,6 +10,7 @@
 	            <table class="table table-striped">
 					<thead>
 						<tr>
+							<th>Featured Image</th>
 							<th scope="col">Title</th>
 							<th>Category</th>
 							<th scope="col">Created at</th>
@@ -21,6 +22,7 @@
 					<tbody>
 						@foreach($posts as $post)
 							<tr>
+								<td><img src="/storage/cover_images/{{$post->featured}}" alt="" width="75px" height="50px"></td>
 								<td>{{$post->title}}</td>
 								<td>{{$post->category->name}}</td>
 								<td>{{$post->created_at}}</td>

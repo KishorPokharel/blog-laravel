@@ -19,7 +19,7 @@
 						@foreach($categories as $category)
 							<tr>
 								<td>{{$category->name}}</td>
-								<td>{{$category->post->count()}}</td>
+								<td>{{$category->posts->count()}}</td>
 								<td>
 									<a href="{{ route('category.edit', ['id' => $category->id])}}" class="btn btn-success">Edit</button>
 								</td>

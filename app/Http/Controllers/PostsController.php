@@ -16,7 +16,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Post::orderBy('created_at', 'desc')->paginate(1);
+        $posts = Post::orderBy('created_at', 'desc')->paginate(5);
         return view('admin.posts.index')->with('posts', $posts);
     }
 
@@ -42,17 +42,33 @@ class PostsController extends Controller
         $this->validate($request, [
             'title' => 'required|max:255',
             'content' => 'required',
-            //'featured' => 'required|image',
+            'featured' => 'image|nullable',
+            'category' => 'required'
         ]);
+
+        if($request->hasFile('featured')) {
+            //get file name with extension
+            $filenameWithExt = $request->file('featured')->getClientOriginalName();
+
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+
+            $extension = $request->file('featured')->getClientOriginalExtension();
+
+            $fileNameToStore = $filename. '_' .time().'.'.$extension;
+
+            $path = $request->file('featured')->storeAs('public/cover_images', $fileNameToStore);
+        }else {
+            $fileNameToStore = 'noimage.jpg';
+        }
 
 		$post = new Post;
 		$post->title = $request->title;
 		$post->content = $request->content;
-		//$post->featured = $request->featured;
-        $post->category_id = 1;
+		$post->featured = $fileNameToStore;
+        $post->category_id = $request->category;
 		$post->save();
 
-		return redirect(route('posts.index'));
+		return redirect(route('posts.index'))->with('success', 'Post Created');
     }
 
     /**
@@ -93,16 +109,32 @@ class PostsController extends Controller
         $this->validate($request, [
             'title' => 'required|max:255',
             'content' => 'required',
-            //'featured' => 'required|image',
+            'featured' => 'image|nullable',
+            'category' => 'required',
         ]);
 
         $post->title = $request->title;
         $post->content = $request->content;
-        //$post->featured = $request->featured;
-        $post->category_id = 1;
+
+        if($request->hasFile('featured')) {
+            //get file name with extension
+            $filenameWithExt = $request->file('featured')->getClientOriginalName();
+
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+
+            $extension = $request->file('featured')->getClientOriginalExtension();
+
+            $fileNameToStore = $filename. '_' .time().'.'.$extension;
+
+            $path = $request->file('featured')->storeAs('public/cover_images', $fileNameToStore);
+
+            $post->featured = $fileNameToStore;
+        }
+
+        $post->category_id = $request->category;
         $post->save();
 
-        return redirect(route('posts.index'));
+        return redirect(route('posts.index'))->with('success', 'Post Updated');
     }
 
     /**
@@ -116,6 +148,9 @@ class PostsController extends Controller
         $post = Post::find($id);
         $post->delete();
 
-        return redirect(route('posts.index'));
+        //delete image after deleting post
+        
+
+        return redirect(route('posts.index'))->with('success', 'Post deleted');
     }
 }

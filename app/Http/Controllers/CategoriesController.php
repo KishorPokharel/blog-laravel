@@ -113,10 +113,13 @@ class CategoriesController extends Controller
     {
         $category = Category::find($id);
 
-        if($category->delete()) {
-            Session::flash('success', 'You deleted a category');
+        if($category->posts->count() > 0) {
+            return redirect(route('categories.index'))->with('error', 'You can not delete this category.');
+        }else {
+            $category->delete();
+            return redirect(route('categories.index'))->with('success', 'You deleted the category');
+
         }
 
-        return redirect(route('categories.index'));
     }
 }
