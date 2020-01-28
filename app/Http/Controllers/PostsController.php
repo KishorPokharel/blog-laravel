@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Post;
+use App\Category;
 
 class PostsController extends Controller
 {
@@ -15,8 +16,8 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Post::orderBy('desc', 'created_at')->get();
-        return view('admin.posts.index');
+        $posts = Post::orderBy('created_at', 'desc')->paginate(1);
+        return view('admin.posts.index')->with('posts', $posts);
     }
 
     /**
@@ -26,7 +27,8 @@ class PostsController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        $categories = Category::all();
+        return view('admin.posts.create')->with('categories', $categories);
     }
 
     /**
@@ -40,13 +42,14 @@ class PostsController extends Controller
         $this->validate($request, [
             'title' => 'required|max:255',
             'content' => 'required',
-            'featured' => 'required|image',
+            //'featured' => 'required|image',
         ]);
 
 		$post = new Post;
 		$post->title = $request->title;
 		$post->content = $request->content;
-		$post->featured = $request->featured;
+		//$post->featured = $request->featured;
+        $post->category_id = 1;
 		$post->save();
 
 		return redirect(route('posts.index'));
@@ -60,7 +63,7 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**
@@ -71,7 +74,9 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::find($id);
+        $categories = Category::all();
+        return view('admin.posts.edit')->with('post', $post)->with('categories', $categories);
     }
 
     /**
@@ -83,7 +88,21 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $post = Post::find($id);
+
+        $this->validate($request, [
+            'title' => 'required|max:255',
+            'content' => 'required',
+            //'featured' => 'required|image',
+        ]);
+
+        $post->title = $request->title;
+        $post->content = $request->content;
+        //$post->featured = $request->featured;
+        $post->category_id = 1;
+        $post->save();
+
+        return redirect(route('posts.index'));
     }
 
     /**
@@ -94,6 +113,9 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::find($id);
+        $post->delete();
+
+        return redirect(route('posts.index'));
     }
 }

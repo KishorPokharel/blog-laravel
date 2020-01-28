@@ -24,16 +24,23 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'],function() {
 	//Post Routes
 	Route::get('/posts', 'PostsController@index')->name('posts.index');
 	Route::get('/post/create', 'PostsController@create')->name('post.create');
-	Route::post('/post/store', 'PostsController@store')->name('post.store');
+	Route::post('/posts', 'PostsController@store')->name('post.store');
+	Route::get('/post/{id}/edit', 'PostsController@edit')->name('post.edit');
+	Route::put('/post/{id}', 'PostsController@update')->name('post.update');
+	Route::delete('/post/{id}', 'PostsController@destroy')->name('post.delete');
 
 	//Category Routes
 	Route::get('/categories', 'CategoriesController@index')->name('categories.index');
 	Route::get('/category/create', 'CategoriesController@create')->name('category.create');
-	Route::post('/category/store', 'CategoriesController@store')->name('category.store');
-	Route::get('/category/edit/{id}', 'CategoriesController@edit')->name('category.edit');
-	Route::put('/category/update/{id}', 'CategoriesController@update')->name('category.update');
-	Route::delete('/category/delete/{id}', 'CategoriesController@destroy')->name('category.delete');
+	Route::post('/categories', 'CategoriesController@store')->name('category.store');
+	Route::get('/category/{id}/edit', 'CategoriesController@edit')->name('category.edit');
+	Route::put('/category/{id}', 'CategoriesController@update')->name('category.update');
+	Route::delete('/category/{id}', 'CategoriesController@destroy')->name('category.delete');
 
+});
+
+Route::fallback(function() {
+	return view('welcome');
 });
 
 
