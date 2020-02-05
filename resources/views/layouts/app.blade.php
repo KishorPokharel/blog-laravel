@@ -76,8 +76,8 @@
         </nav>
 
         <main class="container py-4">
+            @auth
             <div class="row">
-                @auth
                 <div class="col-lg-4">
                     <ul class="list-group">
                         <li class="list-group-item"><a href="{{ route('home') }}">Home</a></li>
@@ -89,12 +89,16 @@
                         <li class="list-group-item"><a href="{{ route('category.create') }}">Create a Category</a></li>
                     </ul>
                 </div>
-                @endauth
 
                 <div class="col-lg-8">
                     @yield('content')
                 </div>
             </div>
+            @endauth
+
+            @guest
+                @yield('content')
+            @endguest
         </main>
     </div>
     <script>

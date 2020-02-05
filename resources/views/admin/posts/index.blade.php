@@ -25,8 +25,8 @@
 								<td><img src="/storage/cover_images/{{$post->featured}}" alt="" width="75px" height="50px"></td>
 								<td>{{$post->title}}</td>
 								<td>{{$post->category->name}}</td>
-								<td>{{$post->created_at}}</td>
-								<td>{{$post->updated_at}}</td>
+								<td>{{$post->created_at}} (<strong>{{$post->created_at->diffForHumans()}}</strong>)</td>
+								<td>{{$post->updated_at}} (<strong>{{$post->updated_at->diffForHumans()}}</strong>)</td>
 								<td>
 									<a href="{{ route('post.edit', ['id' => $post->id])}}" class="btn btn-success">Edit</button>
 								</td>

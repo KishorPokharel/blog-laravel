@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 use App\Post;
 use App\Category;
@@ -146,6 +147,13 @@ class PostsController extends Controller
     public function destroy($id)
     {
         $post = Post::find($id);
+
+        if (File::exists('storage/cover_images/' .$post->featured)) {
+            if($post->featured !== 'noimage.jpg') {
+                File::delete('storage/cover_images/' .$post->featured);
+            }
+        }
+
         $post->delete();
 
         //delete image after deleting post

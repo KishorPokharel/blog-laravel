@@ -40,7 +40,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'],function() {
 });
 
 Route::fallback(function() {
-	return view('welcome');
+	return view('notfound');
 });
 
 
