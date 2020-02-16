@@ -63,6 +63,7 @@ class PostsController extends Controller
         }
 
 		$post = new Post;
+        $post->user_id = auth()->user()->id;
 		$post->title = $request->title;
 		$post->content = $request->content;
 		$post->featured = $fileNameToStore;

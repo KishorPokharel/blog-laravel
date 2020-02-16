@@ -21,6 +21,15 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'],function() {
 
 	Route::get('/home', 'HomeController@index')->name('home');
 
+	Route::group(['middleware' => 'can:manage-users'], function() {
+		//User Routes
+		Route::get('/users', 'UsersController@index')->name('users.index');
+		Route::get('/user/{id}/edit', 'UsersController@edit')->name('user.edit');
+		Route::put('/user/{id}', 'UsersController@update')->name('user.update');
+		Route::delete('/user/{id}', 'UsersController@destroy')->name('user.delete');
+	});
+	
+
 	//Post Routes
 	Route::get('/posts', 'PostsController@index')->name('posts.index');
 	Route::get('/post/create', 'PostsController@create')->name('post.create');

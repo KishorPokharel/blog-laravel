@@ -82,6 +82,10 @@
                     <ul class="list-group">
                         <li class="list-group-item"><a href="{{ route('home') }}">Home</a></li>
                         <hr>
+                        @can('manage-users')
+                        <li class="list-group-item"><a href="{{ route('users.index') }}">Users</a></li>
+                        <hr>
+                        @endcan
                         <li class="list-group-item"><a href="{{ route('posts.index') }}">Posts</a></li>
                         <li class="list-group-item"><a href="{{ route('post.create') }}">Create a Post</a></li>
                         <hr>
